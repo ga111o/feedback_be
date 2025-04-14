@@ -24,9 +24,11 @@ class Question(BaseModel):
     options: Optional[List[Dict[str, str]]] = None  # For multiple_choice and checkboxes: [{"value": "option1", "label": "Option 1"}]
     order: int  # 질문 순서
     is_required: bool = True
+    section_id: Optional[Dict[int, str]] = None  # 문항이 속한 섹션 ID와 섹션 이름
     rating_min: Optional[int] = None  # rating 타입인 경우 최소값
     rating_max: Optional[int] = None  # rating 타입인 경우 최대값
     rating_labels: Optional[Dict[int, str]] = None  # rating 값에 대한 라벨 (예: {1: "매우 불만족", 5: "매우 만족"})
+    bun_gi: Optional[List[int]] = None  # 분기문.
     
 class Response(BaseModel):
     survey_id: str  # Survey의 ObjectId

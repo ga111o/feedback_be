@@ -28,15 +28,18 @@ app.add_middleware(
 def read_root():
     return {"goood": "ga111o"}
 
+
 class QuestionCreate(BaseModel):
     question_text: str
     question_type: str
     options: Optional[List[Dict[str, str]]] = None
     order: int
     is_required: bool = True
+    section_id: Optional[Dict[int, str]] = None  # 문항이 속한 섹션 ID와 섹션 이름
     rating_min: Optional[int] = None
     rating_max: Optional[int] = None
     rating_labels: Optional[Dict[int, str]] = None
+    bun_gi: Optional[List[int]] = None  # 분기문.
 
 class SurveyCreate(BaseModel):
     title: str
@@ -68,6 +71,7 @@ class QuestionResponse(BaseModel):
     options: Optional[List[Dict[str, str]]] = None
     order: int
     is_required: bool = True
+    section_id: Optional[str] = None  # 문항이 속한 섹션 ID
     rating_min: Optional[int] = None
     rating_max: Optional[int] = None
     rating_labels: Optional[Dict[int, str]] = None
@@ -95,7 +99,7 @@ POST /api/surveys/
 """
 @app.post("/api/surveys/", response_model=Survey)
 async def create_survey(survey_create: SurveyCreate):
-    # MongoDB에 저장할 설문 데이터 준비
+    # MongoDB에 저장할 설문 데이터 준비         
     survey_data = Survey(
         title=survey_create.title,
         description=survey_create.description,
